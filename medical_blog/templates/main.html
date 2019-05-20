@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+	<title>Блог Гришины Екатерины</title>
+{% endblock %}
+
+{% block styles %}
+	<style type="text/css">
+		.last-updates{
+			display: block;
+		}
+
+		.news:hover{
+			background-color: #317BFF;
+		}
+
+	</style>
+{% endblock %}
+
+{% block content %}
+	
+	<div class="container-fluid">
+		<div class="container">
+
+			<div class="row">
+				<div class="col-8 col-md-8" style="height: 1100px;">
+					<div class="container-fluid">
+						<div class="row" style="margin-top: 50px;">
+							<div class="col-12" style="margin-top: 15px; margin-bottom: 10px;">
+								<center>
+									<strong style="color: black;">НОВОСТИ</strong>
+								</center>
+							</div>
+							{% for news in news_list %}
+								<div class="col-12" style="margin-bottom: 10px;">
+									<a href="{{ news.get_absolute_url }}" style="text-decoration: none; color: black;">
+									<div class="card news">
+										<div class="card-body">
+											<span>{{ news.title }}</span>
+										</div>
+									</div>
+									</a>
+								</div>
+							{% endfor %}
+							{% if is_paginated %}
+								<div class="col-12">
+					
+								{% if page_obj.has_previous %}
+									<a class="btn btn-primary mb-4 mr-2" href="?page=1">Первая</a>
+									<a class="btn btn-primary mb-4 mr-2" href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
+								{% endif %}
+
+								{% for num in page_obj.paginator.page_range %}
+									{% if page_obj.number == num %}
+										<a class="btn btn-primary mb-4 mr-2" href="?page={{ num }}">{{ num }}</a>
+									{% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3'%}
+										<a class="btn btn-primary mb-4 mr-2" href="?page={{ num }}">{{ num }}</a>
+									{% endif %}
+								{% endfor %}
+
+								{% if page_obj.has_next %}
+									<a class="btn btn-primary mb-4 mr-2" href="?page={{ page_obj.next_page_number }}">Следующая</a>
+									<a class="btn btn-primary mb-4 mr-2" href="?page={{ page_obj.paginator.num_pages }}">Последняя</a>
+								{% endif %}
+								</div>
+							{% endif %}
+
+						</div>
+					</div>
+				</div>
+				
+
+				<div class="col-lg-4 col-md-4">
+					<div class="container-fluid">
+						<div class="row last-updates" style="width: 365px; border-radius: 10px; margin-top: 65px;">
+							<div class="col-12" style="margin-top: 15px; margin-bottom: 10px;">
+								<center>
+									<strong style="color: black;">ПОСЛЕДНИЕ ЗАПИСИ</strong>
+								</center>
+							</div>
+							{% for post in posts %}
+								<div class="col-12 text-center" style="margin-bottom: 10px;">
+									<div class="card last-update-card">
+										<div class="card-body">
+											<a href="{{ post.get_absolute_url }}" style="font-size: 27px;text-decoration: none;"><strong>{{ post.post_title|slice:":25"|truncatewords:4 }}</strong></a>
+											<br>
+											{% if post.tags.all %}
+													{% for tag in post.tags.all %}
+														<a href="{{ tag.get_absolute_url }}" style="color: black;">{{ tag.tag_title }}</a>
+													{% endfor %}
+												<br>
+											{% endif %}
+											<span style="color: #BFBFBF;">posted on: {{ post.date_pub }}</span>	
+										</div>
+									</div>
+								</div>
+							{% endfor %}
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+{% endblock %}

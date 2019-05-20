@@ -1,0 +1,49 @@
+html{
+	position: relative;
+	min-height: 100%;
+}
+
+#nav-brand{
+	color: white;
+	font-size: 20px; 
+	text-decoration: none;
+}
+
+#nav-link{
+	color: white;
+	font-size: 18px; 
+	text-decoration: none;
+}
+
+.footer{
+	height: 60px;
+	background-color: #343940;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+}
+
+.admin-panel{
+	width: 200px;
+	height: 300px;
+	float: right;
+	position: fixed;
+	right: 50px;
+	bottom: 1px;
+}
+
+.panel{
+	border: 1px solid;
+	border-radius: 100px;
+	opacity: 0.4;
+}
+
+.panel:hover{
+	opacity: 1;
+}
+
+.btn-panel{
+	display: block;
+	margin-top: 5px;
+	width: 99px;
+}
