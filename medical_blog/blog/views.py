@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.generic import ListView, UpdateView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.utils.safestring import mark_safe
 from django.db.models import Q
 
 from .models import Post, Tag
@@ -113,7 +114,7 @@ class CreateFormView(LoginRequiredMixin, ListView):
 
     def post(self, request):
         save_success = False
-        
+
         if 'post_title' in request.POST:
             post_form = CreatePostForm(request.POST, request.FILES or None)
 

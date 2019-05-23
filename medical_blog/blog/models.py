@@ -2,6 +2,8 @@ from django.db import models
 from django.shortcuts import reverse
 from django.utils.text import slugify
 
+from ckeditor.fields import RichTextField
+
 from time import time
 
 
@@ -13,7 +15,7 @@ class Post(models.Model):
 
     post_title = models.CharField(max_length=100, db_index=True)
     post_slug = models.SlugField(max_length=100, unique=True, blank=True)
-    body = models.TextField(blank=True, db_index=True)
+    content = RichTextField(blank=True, db_index=True)
     image = models.FileField(null=True, blank=True, upload_to='%Y/%m/%d/')
     tags = models.ManyToManyField('Tag', blank=True, related_name='posts')
     date_pub = models.DateField(auto_now_add=True)

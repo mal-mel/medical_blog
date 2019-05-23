@@ -2,8 +2,8 @@
 {% load static %}
 {% block title %}
 	<title>CREATE FORM</title>
-	<link href="{% static 'trix/trix.css' %}" rel="stylesheet">
-    <script src="{% static 'trix/trix.js' %}"></script>
+	<script type="text/javascript" src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+	<script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
 {% endblock %}
 
 {% block styles %}
@@ -34,7 +34,9 @@
   			{% csrf_token %}
   			{% for field in post_form %}
   				<div class="form-group">
-  				<label>{{ field.label }}</label>
+  				{% if field.label != 'Content' %}
+					<label>{{ field.label }}</label>
+				{% endif %}
   				{% if field.errors %}
   					<div class="alert alert-danger" role="alert">
   						{{ field.errors }}
@@ -43,7 +45,6 @@
   				{{ field }}
   				</div>
   			{% endfor %}
-  			<trix-editor input="{{form.body.auto_id}}"></trix-editor>
     		<label>Тэги</label>
     		
     		<div class="container">

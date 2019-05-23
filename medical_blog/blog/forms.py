@@ -1,17 +1,18 @@
 from django import forms
 from .models import Post, Tag
 from django.core.exceptions import ValidationError
+from ckeditor.widgets import CKEditorWidget
 
 
 class CreatePostForm(forms.ModelForm):
+    content = forms.CharField(widget=CKEditorWidget())
 
     class Meta:
         model = Post
-        fields = ['post_title', 'body', 'image']
+        fields = ['post_title', 'content', 'image']
 
         widgets = {
             'post_title': forms.TextInput(attrs={'class': 'form-control', 'style': 'width: 400px;', 'required': 'true'}),
-            'body': forms.Textarea(attrs={'class': 'form-control', 'style': 'height: 300px; width: 750px; resize: none;', 'required': 'true'}),
         }
 
     def clean_slug(self):
@@ -35,15 +36,15 @@ class CreateTagForm(forms.ModelForm):
 
 
 class UpdatePostForm(forms.ModelForm):
+    content = forms.CharField(widget=CKEditorWidget())
 
     class Meta:
         model = Post
-        fields = ['post_title', 'post_slug', 'body', 'image', 'tags']
+        fields = ['post_title', 'post_slug', 'content', 'image', 'tags']
 
         widgets = {
             'post_title': forms.TextInput(attrs={'class': 'form-control', 'style': 'width: 400px;', 'required': 'true'}),
             'post_slug': forms.TextInput(attrs={'class': 'form-control', 'style': 'width: 400px;', 'required': 'true'}),
-            'body': forms.Textarea(attrs={'class': 'form-control', 'style': 'height: 300px; width: 750px; resize: none;', 'required': 'true'}),
             'tags': forms.SelectMultiple(attrs={'class': 'browser-default custom-select', 'style': 'width: 500px;'})
         }
 

@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block title %}
-	<title>test</title>
+	<title>Изменение {{ form.title }}</title>
+	<script type="text/javascript" src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+	<script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -10,8 +12,12 @@
 			{% csrf_token %}
 				{% for field in form %}
 					<div class="form-group">
-						<label>{{ field.label }}</label>
+						{% if field.label != 'Content' %}
+							<label>{{ field.label }}</label>
+						{% endif %}
+
 						{{ field }}
+
 						{% if field.errors %}
   							<div class="alert alert-danger" role="alert">
   								{{ field.errors }}
