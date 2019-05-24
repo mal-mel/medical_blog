@@ -3,7 +3,6 @@ from django.http import HttpResponseRedirect
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.generic import ListView, UpdateView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.utils.safestring import mark_safe
 from django.db.models import Q
 
 from .models import Post, Tag
@@ -17,7 +16,12 @@ class PostsListView(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['posts'] = Post.objects.all()[::-1]
+        posts = []
+        for post in Post.objects.all()[::-1]:
+            from bs4 import BeautifulSoup
+            post.content = BeautifulSoup(post.content).get_text()
+            posts.append(post)
+        context['posts'] = posts
         return context
 
 

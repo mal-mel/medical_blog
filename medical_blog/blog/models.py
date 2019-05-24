@@ -16,7 +16,7 @@ class Post(models.Model):
     post_title = models.CharField(max_length=100, db_index=True)
     post_slug = models.SlugField(max_length=100, unique=True, blank=True)
     content = RichTextField(blank=True, db_index=True)
-    image = models.FileField(null=True, blank=True, upload_to='%Y/%m/%d/')
+    image = models.ImageField(null=True, blank=True, upload_to='%Y/%m/%d/')
     tags = models.ManyToManyField('Tag', blank=True, related_name='posts')
     date_pub = models.DateField(auto_now_add=True)
 
