@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.generic import ListView, UpdateView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -29,23 +29,25 @@ class PostBodyView(ObjectDetailMixin, View):
     model = Post
     template_name = 'blog/post_page.html'
 
-    '''def get(self, request, *args, **kwargs):
-        obj = Post.objects.get(post_slug__iexact=kwargs['post_slug'])
-        return render(request, 'blog/post_page.html', context={'post': obj, 'admin_object': obj, 'detail': True})'''
-
 
 def delete_post(request, post_slug):
-    post = Post.objects.get(post_slug=post_slug)
-    post.delete()
-    return HttpResponseRedirect('/blog/',
-                                render(request, 'blog/posts_page.html', context={'posts': Post.objects.all()}))
+
+    if request.user.is_authenticated and request.user.is_superuser:
+        post = Post.objects.get(post_slug=post_slug)
+        post.delete()
+        return HttpResponseRedirect('/blog/',
+                                    render(request, 'blog/posts_page.html', context={'posts': Post.objects.all()}))
+    return HttpResponseForbidden()
 
 
 def delete_tag(request, tag_slug):
-    tag = Tag.objects.get(tag_slug=tag_slug)
-    tag.delete()
-    return HttpResponseRedirect('/blog/tags/',
-                                render(request, 'blog/tags_list.html', context={'tags': Tag.objects.all()}))
+
+    if request.user.is_authenticated and request.user.is_superuser:
+        tag = Tag.objects.get(tag_slug=tag_slug)
+        tag.delete()
+        return HttpResponseRedirect('/blog/tags/',
+                                    render(request, 'blog/tags_list.html', context={'tags': Tag.objects.all()}))
+    return HttpResponseForbidden()
 
 
 class SearchResultView(ListView):
@@ -56,24 +58,6 @@ class SearchResultView(ListView):
 
         if request.POST['search']:
             search_query = request.POST['search'].split()
-
-            '''Старая версия поиска:
-            for search_query in request.POST['search'].split():
-                try:
-                    tag_from_bd = Tag.objects.get(tag_slug__iexact=search_query)
-                    tags_list.append(tag_from_bd)
-                except ObjectDoesNotExist:
-                    continue
-
-            for tag in tags_list:
-                for post in tag.posts.all():
-                    if post not in posts_list:
-                        posts_list.append(post)
-
-            if tags_list:
-                result = True
-
-        return render(request, 'blog/search_result.html', context={'posts': posts_list, 'result': result})'''
 
             for query in search_query:
                 db_query = Post.objects.filter(Q(post_title__icontains=query) | Q(body__icontains=query))

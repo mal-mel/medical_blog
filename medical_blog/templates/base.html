@@ -111,6 +111,9 @@
 							<a href="{{ admin_object.get_update_url }}" class="btn btn-light btn-panel">Изменить</a>
 							<a href="{{ admin_object.get_delete_url }}" class="btn btn-danger btn-panel">Удалить</a>
 						{% endif %}
+						{% if request.path == '/' %}
+							<a href="/update_news_list/" class="btn btn-primary btn-panel" style="width: 160px;">Обновить новости</a>
+						{% endif %}
 					</center>
 				</div>
 			</div>

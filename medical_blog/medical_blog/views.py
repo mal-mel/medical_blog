@@ -1,4 +1,6 @@
 from django.views.generic import ListView
+from django.shortcuts import redirect
+
 from news_parser import parser
 from blog.models import Post
 from news.models import News
@@ -16,3 +18,7 @@ class MainPageView(ListView):
             else Post.objects.all()[::-1]
         return context
 
+
+def update_news_list(request):
+    parser(News)
+    return redirect('/')

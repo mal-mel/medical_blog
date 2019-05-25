@@ -13,7 +13,7 @@ urlpatterns = [
     path('post/<str:post_slug>/', PostBodyView.as_view(), name='post_body_url'),
     path('tag/<str:tag_slug>/', TagView.as_view(), name='tag_url'),
 
-    path('<str:post_slug>/delete/', delete_post, name='post_delete_url'),
-    path('<str:tag_slug>/delete_tag/', delete_tag, name='tag_delete_url'),
+    path('post/<str:post_slug>/delete/', delete_post, name='post_delete_url'),
+    path('tag/<str:tag_slug>/delete/', delete_tag, name='tag_delete_url'),
 ]
 

@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
 	
-	{% block title %}
-    	<title>{{ news.title }}</title>
-    {% endblock %}
+{% block title %}
+	<title>{{ news.title }}</title>
+{% endblock %}
 
-    {% block content %}
-    <div class="container" style="margin-top: 15px; margin-bottom: 20px;">
-    	<div class="card">
+{% block content %}
+	<div class="container" style="margin-top: 15px; margin-bottom: 20px;">
+		<div class="card">
 		    <div class="card-header text-center"><h3>{{ news.title }}</h3></div>
 		    <div class="card-body">
-		    	<span>{{ news.body | urlize | linebreaks }}</span>
+		    	<span>{{ news.content|safe|urlize|linebreaks }}</span>
 			</div>
 		</div>
 	</div>
-	{% endblock %}
+{% endblock %}

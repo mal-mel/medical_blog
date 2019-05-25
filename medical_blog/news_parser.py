@@ -1,7 +1,10 @@
 from django.core.exceptions import ObjectDoesNotExist
+from django.utils.text import slugify
+
 import requests
 import bs4
 import re
+import time
 
 
 def parser(news_object):
@@ -40,6 +43,6 @@ def parser(news_object):
             try:
                 news_object.objects.get(title=title)
             except ObjectDoesNotExist:
-                news_object.objects.create(title=title, body=text, source=f'http://neuronews.ru{link[0]}')
+                news_object.objects.create(title=title, content=text, source=f'http://neuronews.ru{link[0]}', slug=slugify(title, allow_unicode=True) + '-' + str(int(time.time())))
 
     return news_object
