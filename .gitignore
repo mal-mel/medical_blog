@@ -1,6 +1,5 @@
 *.pyc
 *~
-.idea
 secret
 __pycache__
 
