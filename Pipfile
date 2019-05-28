@@ -15,6 +15,7 @@ django-ckeditor = "*"
 gunicorn = "*"
 dj-database-url = "*"
 whitenoise = "*"
+psycopg2 = "*"
 
 [requires]
 python_version = "3.6"
