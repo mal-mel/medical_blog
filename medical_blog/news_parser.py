@@ -20,7 +20,7 @@ def parser(news_object):
 
         try:
             if f'http://neuronews.ru{link[0]}' == news_object.objects.get(source=f'http://neuronews.ru{link[0]}').source:
-                break
+                continue
         except ObjectDoesNotExist:
 
             text = ''

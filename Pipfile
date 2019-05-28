@@ -12,6 +12,9 @@ requests = "*"
 selenium = "*"
 pillow = "*"
 django-ckeditor = "*"
+gunicorn = "*"
+dj-database-url = "*"
+whitenoise = "*"
 
 [requires]
 python_version = "3.6"
